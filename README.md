@@ -1,124 +1,172 @@
-Shorty — URL Shortener Backend
+# Shorty — URL Shortener Backend
 
-A URL shortening service built with Java, Spring Boot, and MySQL. Shorty provides the backend infrastructure for creating shortened links, redirecting users to their original URLs, managing links, and retrieving click analytics through API endpoints.
+A URL shortening service built with **Java, Spring Boot, and MySQL**. Shorty provides the backend infrastructure for creating shortened links, redirecting users to their original URLs, managing links, and retrieving click analytics through REST API endpoints.
 
 Designed to integrate with a React frontend, the application separates request handling, business logic, and database operations into maintainable backend components.
 
-Overview
+## Overview
 
-Long URLs are inconvenient to share and difficult to manage. Shorty provides a backend service that transforms long URLs into compact links and supports tracking their usage.
+Long URLs are inconvenient to share and difficult to manage. Shorty transforms long URLs into compact, shareable links and provides functionality for managing links and tracking their usage.
 
-Core workflow
+### Core Workflow
 
-A client submits a long URL through the API.
-The backend generates a short identifier and stores the URL mapping.
-The client receives a shortened URL.
-When the short link is accessed, the backend resolves the identifier and redirects to the original destination.
-Analytics endpoints provide information about link activity.
-Tech Stack
-Technology	Purpose
-Java	Backend programming language
-Spring Boot	Application framework and REST API development
-Spring Web	HTTP request handling and REST controllers
-Spring Data JPA	Database access and persistence
-Hibernate	Object-relational mapping
-MySQL	Relational database
-Maven	Dependency management and build automation
-Architecture
+1. A client submits a long URL through the REST API.
+2. The backend generates a short identifier and stores the URL mapping.
+3. The client receives a shortened URL.
+4. When the short link is accessed, the backend resolves the identifier and redirects the user to the original destination.
+5. Analytics endpoints provide information about link activity.
+
+## Tech Stack
+
+| Technology      | Purpose                                        |
+| --------------- | ---------------------------------------------- |
+| Java            | Backend programming language                   |
+| Spring Boot     | Application framework                          |
+| Spring Web      | REST API development and HTTP request handling |
+| Spring Data JPA | Database access and persistence                |
+| Hibernate       | Object-relational mapping                      |
+| MySQL           | Relational database                            |
+| Gradle          | Dependency management and build automation     |
+
+## Architecture
 
 The application follows a layered backend architecture to separate responsibilities and simplify maintenance.
 
-              React Frontend
-                    |
-                    v
-              REST Controllers
-                    |
-                    v
-              Service Layer
-             (Business Logic)
-                    |
-                    v
-             Repository Layer
-             (Spring Data JPA)
-                    |
-                    v
-                MySQL
-Controller layer: Handles incoming HTTP requests and returns API responses.
-Service layer: Implements URL-shortening workflows and application logic.
-Repository layer: Performs database operations through Spring Data JPA.
-Database layer: Persists URL mappings and related application data.
-Key Capabilities
-URL Shortening: Generate compact links from long URLs.
-URL Redirection: Resolve short identifiers and redirect to original destinations.
-Link Management: Retrieve and manage shortened URLs through API requests.
-Click Analytics: Access link usage statistics through analytics endpoints.
-Frontend Integration: Provide REST APIs for a React-based client.
-Persistent Storage: Store application data in MySQL using JPA and Hibernate.
+```text
+          React Frontend
+                |
+                v
+          REST Controllers
+                |
+                v
+           Service Layer
+          (Business Logic)
+                |
+                v
+          Repository Layer
+          (Spring Data JPA)
+                |
+                v
+              MySQL
+```
 
-The capabilities listed above should match the features implemented in your current codebase.
+* **Controller Layer:** Handles incoming HTTP requests and returns API responses.
+* **Service Layer:** Implements URL-shortening workflows and application logic.
+* **Repository Layer:** Performs database operations through Spring Data JPA.
+* **Database Layer:** Persists URL mappings and related application data.
 
-Getting Started
-Prerequisites
-Java JDK compatible with the project
-MySQL Server
-Maven, or the Maven wrapper included in the repository
-1. Clone the repository
+## Key Features
+
+* **URL Shortening:** Generate compact links from long URLs.
+* **URL Redirection:** Resolve short identifiers and redirect users to original destinations.
+* **URL Management:** Retrieve and manage shortened URLs through API requests.
+* **Click Analytics:** Access link usage statistics through analytics endpoints.
+* **REST API Integration:** Enable communication with the React frontend.
+* **Database Persistence:** Store application data in MySQL using JPA and Hibernate.
+
+## Getting Started
+
+### Prerequisites
+
+Make sure you have installed:
+
+* Java JDK compatible with the project
+* MySQL Server
+* Gradle, or the Gradle Wrapper included in the repository
+
+### 1. Clone the Repository
+
+```bash
 git clone <YOUR_BACKEND_REPOSITORY_URL>
 cd <YOUR_BACKEND_DIRECTORY>
-2. Create the database
+```
 
-Open MySQL and execute:
+### 2. Create the Database
 
+Create the MySQL database used by the application:
+
+```sql
 CREATE DATABASE urlshortnerdb;
+```
 
-Use your actual database name if it differs.
+Replace the database name if your application uses a different one.
 
-3. Configure environment variables
+### 3. Configure Database Credentials
 
-Configure the database connection in src/main/resources/application.properties:
+Configure your database connection in `src/main/resources/application.properties`:
 
+```properties
 spring.datasource.url=${DB_URL:jdbc:mysql://localhost:3306/urlshortnerdb}
 spring.datasource.username=${DB_USERNAME}
 spring.datasource.password=${DB_PASSWORD}
+```
 
-Set DB_USERNAME and DB_PASSWORD in your environment before launching the application. Adapt these properties to your existing configuration.
+Set the `DB_USERNAME` and `DB_PASSWORD` environment variables before starting the application. Adjust these settings to match your existing configuration.
 
-Never commit database credentials or other secrets to version control.
+**Security:** Never commit database passwords, API keys, or other sensitive credentials to GitHub.
 
-4. Run the application
+### 4. Run the Application
 
-On Windows, using the Maven wrapper:
+Using the Gradle Wrapper on Windows:
 
-.\mvnw.cmd spring-boot:run
+```powershell
+.\gradlew.bat bootRun
+```
 
-Alternatively, with Maven installed:
+On Linux or macOS:
 
-mvn spring-boot:run
+```bash
+./gradlew bootRun
+```
 
-The API will be available on the configured application port. If no custom port is specified, Spring Boot defaults to 8080.
+Alternatively, if Gradle is installed globally:
 
-API Overview
+```bash
+gradle bootRun
+```
+
+The application will start on the configured port. If no custom port is specified, Spring Boot defaults to `8080`.
+
+## API Overview
 
 The backend exposes endpoints for interacting with shortened URLs and their associated data.
 
-Functionality	Description
-URL creation	Submit a long URL and receive a shortened link
-URL redirection	Resolve a short link to its destination
-URL listing	Retrieve shortened URLs associated with a user
-Link analytics	Retrieve click statistics for a link
-User operations	Support account-related workflows, if implemented
+| Functionality   | Description                                       |
+| --------------- | ------------------------------------------------- |
+| URL Creation    | Submit a long URL and receive a shortened link    |
+| URL Redirection | Resolve a short link to its original destination  |
+| URL Listing     | Retrieve shortened URLs associated with a user    |
+| Link Analytics  | Retrieve click statistics for a link              |
+| User Operations | Support account-related workflows, if implemented |
 
-For exact endpoint paths, request formats, response schemas, and authentication requirements, refer to the application's controller mappings.
+Refer to the application's controller mappings for the actual endpoint paths, HTTP methods, request formats, response schemas, and authentication requirements.
 
-Frontend
+## Frontend Integration
 
-Shorty is designed to work with a React frontend that provides the user interface for URL shortening, link management, and analytics.
-Author
+Shorty is designed to integrate with a React frontend that provides the interface for URL shortening, link management, and analytics.
 
-Umar Inamdar
+To connect the applications:
 
-GitHub: mohd-umar1
+1. Start the Spring Boot backend.
+2. Configure the frontend API base URL.
+3. Configure CORS to allow requests from the frontend origin.
+4. Ensure API requests use the correct endpoint paths and authentication headers.
 
-Shorty — A backend service for shorter links and simpler sharing.
+## Future Improvements
 
-The frontend communicates with the backend through HTTP requests. During local development, configure the correct API base URL and allow the frontend origin through Spring Boot CORS configuration.
+* Custom short aliases
+* Link expiration and lifecycle management
+* Advanced click analytics and reporting
+* Rate limiting and abuse prevention
+* API documentation using Swagger / OpenAPI
+* Docker-based deployment and automation
+
+## Author
+
+**Umar Inamdar**
+
+GitHub: [@mohd-umar1](https://github.com/mohd-umar1)
+
+---
+
+*Shorty — Shorten links. Simplify sharing.*
